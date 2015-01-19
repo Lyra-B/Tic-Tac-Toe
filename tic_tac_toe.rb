@@ -13,6 +13,15 @@ class Board
   # of marker, unless it has already been set.
   #
 	def mark(x, y, marker)
+		if @board[y-1][x-1] == "."
+			@board[y-1][x-1] = marker
+			puts @board[y-1][x-1]
+      puts display_board
+    else
+    	puts "Sorry.Play elsewhere!"
+    	return false
+    end
+    # binding.pry
 	end
 
 	# TODO - Have the board return each of the possible winning combinations.
@@ -23,6 +32,15 @@ class Board
 	# TODO - Add code to return the board as a String, so that it appears
 	# in a 3 x 3 grid
 	def to_s
+		return @board.to_s
+	end
+
+	def display_board
+		i=0
+		while i<3
+			puts @board[i].to_s
+			i+=1
+		end
 	end
 end
 
@@ -33,11 +51,33 @@ class Game
 		@turn = @players.sample
 	end
 
+  def change_player
+  	if @turn == Cross
+  		@turn = Nought
+  	else
+  		@turn = Cross
+    end
+  end
+
 	# TODO - The main game loop goes in here.
 	#
 	def play
 		# While the game is still going on, do the following:
 			# 1. Show the board to the user
+
+    
+    
+    marking = false
+    while marking == false
+    	user_input = ask_player
+    	marking = @board.mark(user_input[0].to_i,user_input[1].to_i, @turn.marker)
+		end
+			next_turn
+
+		
+
+
+
 			# 2. Prompt for an co-ordinate on the Board that we want to target
 			# 3. Mark the board on the given square. If the input is invalid or already
 			# taken, go back to 1.
@@ -45,10 +85,17 @@ class Game
 			# 5. Otherwise call next_turn and repeat.
 			# 6. How to detect a draw?
 	end
-
   # TODO - Return the next player's turn. I.e. not @turn but the other one.
   #
+    def ask_player
+			@board.display_board
+			puts "Give me your coordinates!"
+		  user_input = gets.strip.chomp.split(",")
+		end
+
 	def next_turn
+		change_player
+		play
 	end
 
 	# TODO - Return the winning Class if they have won, otherwise return nil.
