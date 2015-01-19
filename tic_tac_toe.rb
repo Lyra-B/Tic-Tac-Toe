@@ -9,6 +9,9 @@ class Board
 		]
 	end
 
+	# def diagonals
+	# 	right_down = []
+	# 	3.times {||}
   # TODO - Add code so that the array at co-ordinate x, y is set to the value
   # of marker, unless it has already been set.
   #
@@ -26,7 +29,40 @@ class Board
 
 	# TODO - Have the board return each of the possible winning combinations.
 	#
+	# def combinations
+	# 	@board[0]
+	# 	@board[1]
+ #    @board[2]
+ #    columns = @board.transpose
+ #    columns[0]
+ #    columns[1]
+ #    columns[2]
+ #    diagonal_one = [@board[0][0], @board[1][1], @board [2][2]]
+ #    diagonal_two = [@board[0][2], @board[1][1], @board [2][0]]
+
 	def each_winning_move
+		columns = @board.transpose
+		diagonal_one = [@board[0][0], @board[1][1], @board [2][2]]
+    diagonal_two = [@board[0][2], @board[1][1], @board [2][0]]
+		# possible_combinations = [@board[0], @board[1], @board[2], columns[0], columns[1], 
+		# columns[2], diagonal_one, diagonal_two]
+		yield @board[0]
+    yield @board[1]
+    yield @board[2]
+    # yield @boards.transpose[0]
+    # yield @boards.transpose[1]
+    # yield @boards.transpose[2]
+ 		yield columns[0]
+ 		yield columns[1]
+ 		yield columns[2]
+ 		yield diagonal_one
+ 		yield diagonal_two
+
+		# 3.times do |x|
+		# 	3.times do |y|
+		# 		@board[x-1][y-1]
+		# 	end
+		# end
 	end
 
 	# TODO - Add code to return the board as a String, so that it appears
@@ -66,12 +102,12 @@ class Game
 			# 1. Show the board to the user
 
     
-    
     marking = false
     while marking == false
     	user_input = ask_player
     	marking = @board.mark(user_input[0].to_i,user_input[1].to_i, @turn.marker)
 		end
+		winner
 			next_turn
 
 		
@@ -87,11 +123,10 @@ class Game
 	end
   # TODO - Return the next player's turn. I.e. not @turn but the other one.
   #
-    def ask_player
-			@board.display_board
-			puts "Give me your coordinates!"
-		  user_input = gets.strip.chomp.split(",")
-		end
+  def ask_player
+		puts "Give me your coordinates!"
+	  user_input = gets.strip.chomp.split(",")
+	end
 
 	def next_turn
 		change_player
@@ -103,7 +138,18 @@ class Game
 	def winner
 		# Check each of the winning moves on the board, rows, cols and diagonals
 		# to see if a Player has filled a row of three consequtive squares
-	end
+    @board.each_winning_move do |line|
+    	i=0
+    	line.each do |value|
+    		if value == @turn.marker
+    			i +=1
+    		end
+    	end
+    	if i == 3
+    		puts "And we have a winner!"
+    	end
+    end
+  end
 end
 
 class Player
