@@ -29,19 +29,14 @@ class Board
     true unless flat.include?"."
   end
 
-  # true unless @board[i] == "."
-
-
 	# TODO - Have the board return each of the possible winning combinations.
 
 	def each_winning_move
 		columns = @board.transpose
 		diagonal_one = [@board[0][0], @board[1][1], @board [2][2]]
     diagonal_two = [@board[0][2], @board[1][1], @board [2][0]]
-
 		possible_combinations = [@board[0], @board[1], @board[2], columns[0], columns[1],
 		columns[2], diagonal_one, diagonal_two]
-
 		possible_combinations.each {|n| yield n}
 	end
 
@@ -81,21 +76,6 @@ class Game
   		@turn = Cross
     end
   end
-
- #  counts = 0
-	# def draw
-	# 	if next_turn
-	# 		counts+=1
-	# 	end
-	# 	if counts == 8
-	# 		puts "No winner! We have a draw"
-	# 		puts "Would you like to play again?"
-	# 		answer = gets.strip.chomp.downcase
-	# 		if answer == 'yes'
-	# 		Game.new.play
-	# 	  end
-	# 	end
-	# end
 
 	# TODO - The main game loop goes in here.
 	#
@@ -146,15 +126,6 @@ class Game
       end
     end
   end
-
-  # def complete
-  #   binding.pry
-  #   @board.flatten!
-  #   for i in @board
-  #     true unless @board[i] == "."
-  #   end
-  # end
-
 end
 
 class Player
