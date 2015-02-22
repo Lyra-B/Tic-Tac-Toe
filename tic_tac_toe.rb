@@ -12,6 +12,7 @@ class Board
   # TODO - Add code so that the array at co-ordinate x, y is set to the value
   # of marker, unless it has already been set.
   #
+
 	def mark(x, y, marker)
 		if @board[y-1][x-1] == "."
 			@board[y-1][x-1] = marker
@@ -23,11 +24,13 @@ class Board
     end
 	end
 
-  def board_complete
-    for i in @board
-      true unless @board[i] == "."
-    end
+  def complete
+    flat = @board.flatten
+    true unless flat.include?"."
   end
+
+  # true unless @board[i] == "."
+
 
 	# TODO - Have the board return each of the possible winning combinations.
 
@@ -110,11 +113,14 @@ class Game
     	coord = ask_player
     	marking = @board.mark(coord[0].to_i,coord[1].to_i, @turn.marker)
 		end
-			winner
-			next_turn
-      if board_complete
-        puts "We have a draw! No winner for now! Start again!"
-      end
+		winner
+    @board.complete
+    if @board.complete
+      puts "We have a draw! No winner for now! Start again!"
+      Game.new.play
+    end
+		next_turn
+
 	end
   # TODO - Return the next player's turn. I.e. not @turn but the other one.
   #
@@ -140,6 +146,15 @@ class Game
       end
     end
   end
+
+  # def complete
+  #   binding.pry
+  #   @board.flatten!
+  #   for i in @board
+  #     true unless @board[i] == "."
+  #   end
+  # end
+
 end
 
 class Player
