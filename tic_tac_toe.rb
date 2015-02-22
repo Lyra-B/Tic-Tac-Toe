@@ -23,6 +23,12 @@ class Board
     end
 	end
 
+  def board_complete
+    for i in @board
+      true unless @board[i] == "."
+    end
+  end
+
 	# TODO - Have the board return each of the possible winning combinations.
 
 	def each_winning_move
@@ -93,29 +99,29 @@ class Game
 	def play
 		# While the game is still going on, do the following:
 			# 1. Show the board to the user
-
-
+      # 2. Prompt for an co-ordinate on the Board that we want to target
+      # 3. Mark the board on the given square. If the input is invalid or already
+      # taken, go back to 1.
+      # 4. If we've got a winner, show the board and show a congratulations method.
+      # 5. Otherwise call next_turn and repeat.
+      # 6. How to detect a draw?
     marking = false
     while marking == false
     	coord = ask_player
     	marking = @board.mark(coord[0].to_i,coord[1].to_i, @turn.marker)
 		end
 			winner
-		#unless draw
 			next_turn
-      # 2. Prompt for an co-ordinate on the Board that we want to target
-			# 3. Mark the board on the given square. If the input is invalid or already
-			# taken, go back to 1.
-			# 4. If we've got a winner, show the board and show a congratulations method.
-			# 5. Otherwise call next_turn and repeat.
-			# 6. How to detect a draw?
+      if board_complete
+        puts "We have a draw! No winner for now! Start again!"
+      end
 	end
   # TODO - Return the next player's turn. I.e. not @turn but the other one.
   #
-	def next_turn
-		change_player
-		play
-	end
+  def next_turn
+    change_player
+    play
+  end
 
 	# TODO - Return the winning Class if they have won, otherwise return nil.
 	#
